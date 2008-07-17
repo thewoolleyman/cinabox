@@ -24,7 +24,7 @@ class Cinabox
     # Download RubyGems if needed
     unless File.exist?("rubygems-#{rubygems_version}.tgz")
       `rm -rf rubygems-#{rubygems_version}.tgz`
-      `wget http://rubyforge.org/frs/download.php/20989/rubygems-#{rubygems_version}.tgz`
+      `wget http://rubyforge.org/frs/download.php/38646/rubygems-#{rubygems_version}.tgz`
     end
 
     # Force rubygems install/reinstall
