@@ -32,7 +32,7 @@ class Cinabox
     unless `gem --version` =~ /#{rubygems_version}/
       `rm -rf rubygems-#{rubygems_version}`
       `tar -zxvf rubygems-#{rubygems_version}.tgz`
-      FileUtils.cd 'rubygems-#{rubygems_version}' do
+      FileUtils.cd "rubygems-#{rubygems_version}" do
         `sudo ruby setup.rb`
       end
     end
