@@ -8,7 +8,7 @@ class Cinabox
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
     FileUtils.mkdir_p(build_dir)
 
-    cc_dir = ENV['CC_DIR'] || "#{ENV['HOME']}/cc"
+    ccrb_dir = ENV['ccrb_dir'] || "#{ENV['HOME']}/ccrb_branch"
     
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
     
@@ -38,9 +38,11 @@ class Cinabox
     end
 
     # Install ccrb via git
-    unless File.exist?(cc_dir)
-      `git clone #{ccrb_branch} #{cc_dir}`
+    unless File.exist?(ccrb_dir)
+      `git clone #{ccrb_branch} #{ccrb_dir}`
+      `sudo ln -s `
     end
+    
 
     
   end
