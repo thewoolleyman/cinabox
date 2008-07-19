@@ -36,7 +36,9 @@ Continuous Integration - in a Box
 * cd thewoolleyman-cinabox-<GUID>
 * ./bootstrap_ruby.sh
 * ruby setup_ci.rb
-* Add your projects to ~/ccrb (See docs at http://cruisecontrolrb.thoughtworks.com/)
+* sudo /etc/init.d/ccrb_daemon start
+* Go to http://ubuntu-host:3333
+* Add your projects using ~/ccrb/cruise (See docs at http://cruisecontrolrb.thoughtworks.com/)
 
 == LICENSE:
 

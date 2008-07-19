@@ -39,10 +39,10 @@ class Cinabox
       end
     end
 
-    # Install ccrb via git
+    # Install ccrb via git and dependencies
     unless File.exist?(ccrb_home)
       `git clone #{ccrb_branch} #{ccrb_home}`
-      `sudo gem install mongrel_cluster`
+      `sudo gem install rake mongrel_cluster`
     end
 
     # Always update ccrb
