@@ -67,15 +67,16 @@ class Cinabox
       run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/ccrb_daemon_config'"
     end
     
-    #
+    # Create init script symlink to daemon
     if !File.exist?('/etc/init.d/ccrb_daemon') || force
       run "sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon"
     end
     
+    # Enable on system reboot
     if !File.exist?('/etc/rc3.d/S20cruise') || force
       run "sudo update-rc.d ccrb_daemon defaults"
     end
-
+    
   end
   
   def self.run(cmd)
