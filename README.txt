@@ -36,7 +36,7 @@ Continuous Integration - in a Box
 * cd thewoolleyman-cinabox-<GUID>
 * ./bootstrap_ruby.sh
 * ruby setup_ci.rb
-* Add your projects to cruisecontrolrb (See docs at http://cruisecontrolrb.thoughtworks.com/)
+* Add your projects to ~/ccrb (See docs at http://cruisecontrolrb.thoughtworks.com/)
 
 == LICENSE:
 
