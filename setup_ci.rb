@@ -3,6 +3,8 @@
 class Cinabox
   def self.setup
     require 'fileutils'
+    
+    force = ARGV[0] == '--force' ? true : false
 
     # SETTINGS
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
@@ -24,14 +26,14 @@ class Cinabox
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
-    unless File.exist?("rubygems-#{rubygems_version}.tgz")
+    if !File.exist?("rubygems-#{rubygems_version}.tgz") || force
       run "rm -rf rubygems-#{rubygems_version}.tgz"
       run "wget http://rubyforge.org/frs/download.php/#{rubygems_mirror_id}/rubygems-#{rubygems_version}.tgz"
     end
 
-    # Force rubygems install/reinstall
+    # rubygems install/reinstall
     # TODO: Should try a gem update --system if RubyGems is already installed
-    unless (run "gem --version") =~ /#{rubygems_version}/
+    if !((run "gem --version") =~ /#{rubygems_version}/) || force
       run "rm -rf rubygems-#{rubygems_version}"
       run "tar -zxvf rubygems-#{rubygems_version}.tgz"
       FileUtils.cd "rubygems-#{rubygems_version}" do
@@ -40,7 +42,7 @@ class Cinabox
     end
 
     # Install ccrb via git and dependencies
-    unless File.exist?(ccrb_home)
+    if !File.exist?(ccrb_home) || force
       run "git clone #{ccrb_branch} #{ccrb_home}"
       run "sudo gem install rake mongrel_cluster"
     end
@@ -52,21 +54,21 @@ class Cinabox
     run "cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/"
     
     # Handle daemon setup
-    unless File.exist?('/etc/ccrb')
+    if !File.exist?('/etc/ccrb') || force
       run "sudo mkdir -p /etc/ccrb"
       run "sudo chown #{current_user} /etc/ccrb"
     end
 
-    unless File.exist?('/etc/ccrb/ccrb_daemon_config')
+    if !File.exist?('/etc/ccrb/ccrb_daemon_config') || force
       run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/ccrb_daemon_config'"
       run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/ccrb_daemon_config'"
     end
     
-    unless File.exist?('/etc/init.d/ccrb_daemon')
+    if !File.exist?('/etc/init.d/ccrb_daemon') || force
       run "sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon"
     end
     
-    unless File.exist?('/etc/rc3.d/S20cruise')
+    if !File.exist?('/etc/rc3.d/S20cruise') || force
       run "sudo update-rc.d ccrb_daemon defaults"
     end
 
