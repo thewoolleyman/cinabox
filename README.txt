@@ -28,7 +28,7 @@ Continuous Integration - in a Box
   * VMWare Player (win): http://www.vmware.com/products/player/
   * VMWare Fusion (mac): http://www.vmware.com/download/fusion/
   * Ubuntu 8.04 VMWare image: 
-    * Here's one: http://www.visoracle.com/download/ubuntu/
+    * Here's one: http://symbiosoft.net/UbuntuServerMinimalVA
     * Or search for "Ubuntu 8.04" Operating System VMs to find one that works for you: http://www.vmware.com/appliances/directory/cat/45
 * cd ~
 * wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tarball/master
