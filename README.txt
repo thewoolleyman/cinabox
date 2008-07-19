@@ -25,9 +25,11 @@ Continuous Integration - in a Box
 
 * Install Ubuntu 8.04 manually or as a virtual machine:
   * http://www.ubuntu.com/getubuntu/download
-  * VMWare Player: http://www.vmware.com/products/player/
+  * VMWare Player (win): http://www.vmware.com/products/player/
+  * VMWare Fusion (mac): http://www.vmware.com/download/fusion/
   * Ubuntu 8.04 VMWare image: 
-    * http://www.vmware.com/appliances/directory/1258 or http://www.visoracle.com/download/ubuntu/
+    * Here's one: http://www.visoracle.com/download/ubuntu/
+    * Or search for "Ubuntu 8.04" Operating System VMs to find one that works for you: http://www.vmware.com/appliances/directory/cat/45
 * cd ~
 * wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tarball/master
 * tar -zxvf cinabox.tar.gz
