@@ -8,33 +8,33 @@ Continuous Integration - in a Box
 
 == FEATURES/PROBLEMS:
   
-* The purpose of CI in a Box is to automate the setup of a Continuous Integration system by doing The Simplest Thing That Could Possibly Work.
+* CI in a Box automates the setup of a Continuous Integration system by doing The Simplest Thing That Could Possibly Work.
 
 == SYNOPSIS:
 
 * Simplicity Rules.  CINABOX is only tested on Ubuntu 8.04.  If it works on anything else, it is by coincidence.  If it doesn't work, hack it up yourself or try running the commands manually - the scripts are intended to be easily readable and easily changed.
 
-Questions/Comments?  Email me at thewoolleyman@gmail.com
+* Support: http://thewoolleyweb.lighthouseapp.com/projects/14441-cinabox
 
 == REQUIREMENTS:
 
 * Ubuntu 8.04 and an internet connection
-* The ability to be patient, read instructions, pay attention to details, and use Google/Mailing Lists to find additional info and solve unexpected problems.  There will be many.  They will never stop.
+* The ability to be patient, read instructions, pay attention to details, and use Google/Mailing Lists to find additional info and solve unexpected problems.  There will be many.  They will never stop.  That is the nature of Continuous Integration.  Stop and take a breath.
 
 == INSTALL:
 
-* Install Ubuntu 8.04
-  * Get VMWare Player: http://www.vmware.com/products/player/
-  * Download and Run Ubuntu: 
-    * http://www.vmware.com/appliances/directory/1258 or 
-    * http://www.visoracle.com/download/ubuntu/
+* Install Ubuntu 8.04 manually or as a virtual machine:
+  * http://www.ubuntu.com/getubuntu/download
+  * VMWare Player: http://www.vmware.com/products/player/
+  * Ubuntu 8.04 VMWare image: 
+    * http://www.vmware.com/appliances/directory/1258 or http://www.visoracle.com/download/ubuntu/
 * cd ~
-* wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tree/master%2Fcinabox.tar.gz?raw=true
-* tar -zxvf cinabox.tar.gz  # see History.txt for version
+* wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tarball/master
+* tar -zxvf cinabox.tar.gz
 * cd cinabox
 * ./bootstrap_ruby.sh
 * ruby setup_ci.rb
-* Add your projects to cruisecontrolrb (http://cruisecontrolrb.thoughtworks.com/)
+* Add your projects to cruisecontrolrb (See docs at http://cruisecontrolrb.thoughtworks.com/)
 
 == LICENSE:
 
