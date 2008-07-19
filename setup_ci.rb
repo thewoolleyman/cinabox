@@ -58,8 +58,8 @@ class Cinabox
     end
 
     unless File.exist?('/etc/ccrb/ccrb_daemon_config')
-      run "echo "ENV['CCRB_USER']='#{current_user}'" > '/etc/ccrb/ccrb_daemon_config'"
-      run "echo "ENV['CCRB_HOME']='#{ccrb_home}'" >> '/etc/ccrb/ccrb_daemon_config'"
+      run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/ccrb_daemon_config'"
+      run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/ccrb_daemon_config'"
     end
     
     unless File.exist?('/etc/init.d/ccrb_daemon')
