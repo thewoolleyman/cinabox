@@ -1,9 +1,7 @@
 # This script is designed to run on a standard Ubuntu Linux Desktop install
 
 sudo aptitude update
-p 'installing zlib...'
 sudo aptitude install -y zlib1g zlib1g-dev
-p 'installing ssl...'
 sudo aptitude install -y libssl-dev openssl
 
 export RUBY_VERSION=1.8.6-p230

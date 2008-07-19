@@ -30,10 +30,10 @@ Continuous Integration - in a Box
   * Ubuntu 8.04 VMWare image: 
     * Here's one: http://symbiosoft.net/UbuntuServerMinimalVA
     * Or search for "Ubuntu 8.04" Operating System VMs to find one that works for you: http://www.vmware.com/appliances/directory/cat/45
-* cd ~
-* wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tarball/master
-* tar -zxvf cinabox.tar.gz
-* cd cinabox
+* cd
+* wget http://github.com/thewoolleyman/cinabox/tarball/master
+* tar -zxvf thewoolleyman-cinabox-<GUID>.tar.gz # <GUID> is the current git GUID
+* cd thewoolleyman-cinabox-<GUID>
 * ./bootstrap_ruby.sh
 * ruby setup_ci.rb
 * Add your projects to cruisecontrolrb (See docs at http://cruisecontrolrb.thoughtworks.com/)
