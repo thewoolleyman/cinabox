@@ -72,7 +72,7 @@ class Cinabox
 
   end
   
-  def run(cmd)
+  def self.run(cmd)
     puts "Running command: #{cmd}"
     puts run "#{cmd}"
     raise "Command failed: #{cmd}" unless $?.success?
