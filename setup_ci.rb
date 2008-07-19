@@ -43,7 +43,7 @@ class Cinabox
 
     # Install ccrb via git and dependencies
     if !File.exist?(ccrb_home) || force
-      run "git clone #{ccrb_branch} #{ccrb_home}"
+      run "git clone #{ccrb_branch} #{ccrb_home}" unless File.exist?(ccrb_home)
       run "sudo gem install rake mongrel_cluster"
     end
 
