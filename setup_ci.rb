@@ -8,10 +8,9 @@ class Cinabox
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
     FileUtils.mkdir_p(build_dir)
 
-    ccrb_dir = ENV['ccrb_dir'] || "#{ENV['HOME']}/ccrb_branch"
-    
+    current_user = "#{ENV['USER']}"
+    ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
-    
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://rubyforge.org/cruisecontrolrb.git"
     
     FileUtils.cd(build_dir)
@@ -22,9 +21,10 @@ class Cinabox
     `sudo apt-get install -y ssh`
 
     # Download RubyGems if needed
+    rubygems_mirror_id = '38646'
     unless File.exist?("rubygems-#{rubygems_version}.tgz")
       `rm -rf rubygems-#{rubygems_version}.tgz`
-      `wget http://rubyforge.org/frs/download.php/38646/rubygems-#{rubygems_version}.tgz`
+      `wget http://rubyforge.org/frs/download.php/#{rubygems_mirror_id}/rubygems-#{rubygems_version}.tgz`
     end
 
     # Force rubygems install/reinstall
@@ -38,13 +38,23 @@ class Cinabox
     end
 
     # Install ccrb via git
-    unless File.exist?(ccrb_dir)
-      `git clone #{ccrb_branch} #{ccrb_dir}`
+    unless File.exist?(ccrb_home)
+      `git clone #{ccrb_branch} #{ccrb_home}`
       `sudo ln -s `
+
+      # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
+      `cp #{File.dirname(__FILE__)}/ccrb_daemon #{ccrb_home}/daemon/`
     end
     
+    # Handle daemon setup
+    unless File.exist?('/etc/rc3.d/S20cruise')
+      `sudo mkdir -p /etc/ccrb`
+      `sudo echo 'ENV['CCRB_USER']='#{current_user}' > '/etc/ccrb/ccrb_daemon_config'`
+      `sudo echo 'ENV['CCRB_HOME']='#{ccrb_home}' >> '/etc/ccrb/ccrb_daemon_config'`
+      `sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon`
+      `sudo update-rc.d ccrb_daemon defaults`
+    end
 
-    
   end
 end
 
