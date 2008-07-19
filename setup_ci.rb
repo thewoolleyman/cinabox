@@ -4,6 +4,7 @@ class Cinabox
   def self.setup
     require 'fileutils'
     
+    # warning - the '--force' option will blow away any existing settings
     force = ARGV[0] == '--force' ? true : false
 
     # SETTINGS
@@ -43,7 +44,8 @@ class Cinabox
 
     # Install ccrb via git and dependencies
     if !File.exist?(ccrb_home) || force
-      run "git clone #{ccrb_branch} #{ccrb_home}" unless File.exist?(ccrb_home)
+      run "rm -rf #{ccrb_home}"
+      run "git clone #{ccrb_branch} #{ccrb_home}"
       run "sudo gem install rake mongrel_cluster"
     end
 
@@ -53,17 +55,19 @@ class Cinabox
     # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
     run "cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/"
     
-    # Handle daemon setup
+    # Make dir for ccrb daemon config
     if !File.exist?('/etc/ccrb') || force
       run "sudo mkdir -p /etc/ccrb"
       run "sudo chown #{current_user} /etc/ccrb"
     end
 
+    # Create ccrb daemon config file
     if !File.exist?('/etc/ccrb/ccrb_daemon_config') || force
       run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/ccrb_daemon_config'"
       run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/ccrb_daemon_config'"
     end
     
+    #
     if !File.exist?('/etc/init.d/ccrb_daemon') || force
       run "sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon"
     end
