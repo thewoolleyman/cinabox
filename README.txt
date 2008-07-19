@@ -24,11 +24,11 @@ Questions/Comments?  Email me at thewoolleyman@gmail.com
 
 * Install Ubuntu 8.04
 * cd ~
-* wget http://github.com/thewoolleyman/cinabox/tree/master/cinabox.tar.gz
-* tar -zxvf cinabox.tar.gz  (see History.txt for version)
+* wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tree/master%2Fcinabox.tar.gz?raw=true
+* tar -zxvf cinabox.tar.gz  # see History.txt for version
 * cd cinabox
-* bootstrap_ruby.sh
-* setup_ci.rb
+* ./bootstrap_ruby.sh
+* ./setup_ci.rb
 * Add your projects to cruisecontrolrb (http://cruisecontrolrb.thoughtworks.com/)
 
 == LICENSE:
