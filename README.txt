@@ -19,10 +19,15 @@ Questions/Comments?  Email me at thewoolleyman@gmail.com
 == REQUIREMENTS:
 
 * Ubuntu 8.04 and an internet connection
+* The ability to be patient, read instructions, pay attention to details, and use Google/Mailing Lists to find additional info and solve unexpected problems.  There will be many.  They will never stop.
 
 == INSTALL:
 
 * Install Ubuntu 8.04
+  * Get VMWare Player: http://www.vmware.com/products/player/
+  * Download and Run Ubuntu: 
+    * http://www.vmware.com/appliances/directory/1258 or 
+    * http://www.visoracle.com/download/ubuntu/
 * cd ~
 * wget -O cinabox.tar.gz http://github.com/thewoolleyman/cinabox/tree/master%2Fcinabox.tar.gz?raw=true
 * tar -zxvf cinabox.tar.gz  # see History.txt for version
