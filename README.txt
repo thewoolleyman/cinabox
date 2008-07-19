@@ -28,7 +28,7 @@ Questions/Comments?  Email me at thewoolleyman@gmail.com
 * tar -zxvf cinabox.tar.gz  # see History.txt for version
 * cd cinabox
 * ./bootstrap_ruby.sh
-* ./setup_ci.rb
+* ruby setup_ci.rb
 * Add your projects to cruisecontrolrb (http://cruisecontrolrb.thoughtworks.com/)
 
 == LICENSE:
