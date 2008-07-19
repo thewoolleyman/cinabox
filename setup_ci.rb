@@ -21,9 +21,9 @@ class Cinabox
     FileUtils.cd(build_dir)
 
     # Install important packaages
-    run "sudo apt-get install -y subversion"
-    run "sudo apt-get install -y git-core git-svn"
-    run "sudo apt-get install -y ssh"
+    run "sudo aptitude install -y subversion"
+    run "sudo aptitude install -y git-core git-svn"
+    run "sudo aptitude install -y ssh"
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
