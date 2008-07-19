@@ -1,0 +1,1 @@
+tar --exclude=.git -czf cinabox.tar.gz ../cinabox

@@ -1,4 +1,4 @@
-== 0.1.0 / 2008-06-20
+== 0.2.0 / 2008-07-18
 
-* Move to Github, switch to using ccrb
+* Initial Release
 

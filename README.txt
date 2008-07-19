@@ -1,6 +1,6 @@
 cinabox
-    by Chad Woolley
-    http://cinabox.rubyforge.org
+    by Chad Woolley (http://thewoolleyweb.com)
+    http://github.com/thewoolleyman/cinabox/tree/master/README.txt
 
 == DESCRIPTION:
   
@@ -12,20 +12,24 @@ Continuous Integration - in a Box
 
 == SYNOPSIS:
 
-* Install Ubuntu Desktop 8.04
-* cd ~
-* wget [TODO: path to cinabox download]
-* tar -zxvf cinabox-x.y.z.tar.gz
-* cinabox/bootstrap_ruby.sh
-* cinabox/setup_ci.rb
+* Simplicity Rules.  CINABOX is only tested on Ubuntu 8.04.  If it works on anything else, it is by coincidence.  If it doesn't work, hack it up yourself or try running the commands manually - the scripts are intended to be easily readable and easily changed.
+
+Questions/Comments?  Email me at thewoolleyman@gmail.com
 
 == REQUIREMENTS:
 
-* Ubuntu Desktop 8.04 and an internet connection
+* Ubuntu 8.04 and an internet connection
 
 == INSTALL:
 
-* http://cinabox.rubyforge.org
+* Install Ubuntu 8.04
+* cd ~
+* wget http://github.com/thewoolleyman/cinabox/tree/master/cinabox.tar.gz
+* tar -zxvf cinabox.tar.gz  (see History.txt for version)
+* cd cinabox
+* bootstrap_ruby.sh
+* setup_ci.rb
+* Add your projects to cruisecontrolrb (http://cruisecontrolrb.thoughtworks.com/)
 
 == LICENSE:
 
