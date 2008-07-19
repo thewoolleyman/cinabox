@@ -42,7 +42,6 @@ class Cinabox
     # Install ccrb via git
     unless File.exist?(ccrb_home)
       `git clone #{ccrb_branch} #{ccrb_home}`
-      `sudo ln -s `
     end
 
     # Always update ccrb
@@ -52,12 +51,21 @@ class Cinabox
     `cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/`
     
     # Handle daemon setup
-    unless File.exist?('/etc/rc3.d/S20cruise')
+    unless File.exist?('/etc/ccrb')
       `sudo mkdir -p /etc/ccrb`
       `sudo chown #{current_user} /etc/ccrb`
+    end
+
+    unless File.exist?('/etc/ccrb/ccrb_daemon_config')
       `echo "ENV['CCRB_USER']='#{current_user}'" > '/etc/ccrb/ccrb_daemon_config'`
       `echo "ENV['CCRB_HOME']='#{ccrb_home}'" >> '/etc/ccrb/ccrb_daemon_config'`
+    end
+    
+    unless File.exist?('/etc/init.d/ccrb_daemon')
       `sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon`
+    end
+    
+    unless File.exist?('/etc/rc3.d/S20cruise')
       `sudo update-rc.d ccrb_daemon defaults`
     end
 
