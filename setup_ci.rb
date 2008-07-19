@@ -3,6 +3,7 @@
 class Cinabox
   def self.setup
     require 'fileutils'
+    require 'socket'
     
     # warning - the '--force' option will blow away any existing settings
     force = ARGV[0] == '--force' ? true : false
@@ -77,6 +78,14 @@ class Cinabox
       run "sudo update-rc.d ccrb_daemon defaults"
     end
     
+    # Install and configure postfix
+    if !((run "dpkg -l postfix") =~ /ii  postfix/) || force
+      run `sudo aptitude install debconf-utils -y`
+      run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname))[0]}' > #{cinabox_dir}/postfix-selections"
+      run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{cinabox_dir}/postfix-selections"
+      run "sudo debconf-set-selections #{cinabox_dir}/postfix-selections"
+      run "sudo aptitude install postfix -y"
+    end
   end
   
   def self.run(cmd)
