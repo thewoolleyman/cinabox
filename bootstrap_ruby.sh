@@ -1,6 +1,7 @@
 # This script is designed to run on a standard Ubuntu Linux Desktop install
 
 sudo aptitude update
+sudo aptitude install -y build-essential
 sudo aptitude install -y zlib1g zlib1g-dev
 sudo aptitude install -y libssl-dev openssl
 
