@@ -54,8 +54,9 @@ class Cinabox
     # Handle daemon setup
     unless File.exist?('/etc/rc3.d/S20cruise')
       `sudo mkdir -p /etc/ccrb`
-      `sudo echo "ENV['CCRB_USER']='#{current_user}'" > '/etc/ccrb/ccrb_daemon_config'`
-      `sudo echo "'ENV['CCRB_HOME']='#{ccrb_home}'" >> '/etc/ccrb/ccrb_daemon_config'`
+      `sudo chown #{current_user} /etc/ccrb`
+      `echo "ENV['CCRB_USER']='#{current_user}'" > '/etc/ccrb/ccrb_daemon_config'`
+      `echo "'ENV['CCRB_HOME']='#{ccrb_home}'" >> '/etc/ccrb/ccrb_daemon_config'`
       `sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon`
       `sudo update-rc.d ccrb_daemon defaults`
     end
