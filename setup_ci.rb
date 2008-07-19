@@ -13,6 +13,8 @@ class Cinabox
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://rubyforge.org/cruisecontrolrb.git"
     
+    cinabox_dir = File.expand_path(File.dirname(__FILE__))
+    
     FileUtils.cd(build_dir)
 
     # Install important packaages
@@ -47,7 +49,7 @@ class Cinabox
     `cd #{ccrb_home} && git pull`
     
     # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
-    `cp #{File.expand_path(File.dirname(__FILE__))}/ccrb_daemon #{ccrb_home}/daemon/`
+    `cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/`
     
     # Handle daemon setup
     unless File.exist?('/etc/rc3.d/S20cruise')
