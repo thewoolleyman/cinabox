@@ -41,10 +41,13 @@ class Cinabox
     unless File.exist?(ccrb_home)
       `git clone #{ccrb_branch} #{ccrb_home}`
       `sudo ln -s `
-
-      # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
-      `cp #{File.dirname(__FILE__)}/ccrb_daemon #{ccrb_home}/daemon/`
     end
+
+    # Always update ccrb
+    `cd #{ccrb_home} && git pull`
+    
+    # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
+    `cp #{File.expand_path(File.dirname(__FILE__))}/ccrb_daemon #{ccrb_home}/daemon/`
     
     # Handle daemon setup
     unless File.exist?('/etc/rc3.d/S20cruise')
