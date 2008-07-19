@@ -28,3 +28,12 @@ cd $BUILD_DIR/ruby-$RUBY_VERSION
 make
 sudo make install
 
+# TODO: 
+# had to manually symlink /usr/bin/ruby to /usr/local/bin/ruby for shebang of /usr/bin/env ruby to work
+# in ccrb init script.  Why?
+
+# TODO: Suggestion from bitsweat:
+# Looking at bootstrap_ruby.sh, I'd encouraging starting with a separate
+# --prefix and --program-suffix so it's straightforward to do CI against
+# multiple releases (1.8.5p231, 1.8.6p230, 1.8.7p22, 1.9.0p2, ... jruby
+# 1.1.2, rbx, ;)
