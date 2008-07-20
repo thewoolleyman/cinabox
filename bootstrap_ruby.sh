@@ -27,9 +27,9 @@ cd $BUILD_DIR/ruby-$RUBY_VERSION
 make
 sudo make install
 
-# TODO: 
-# had to manually symlink /usr/bin/ruby to /usr/local/bin/ruby for shebang of /usr/bin/env ruby to work
-# in ccrb init script.  Why?
+# TODO: had to manually symlink /usr/bin/ruby to /usr/local/bin/ruby for shebang of /usr/bin/env ruby to work
+# in daemon init script on system reboot.  Probably a better way to do via compile options...
+sudo ln -s /usr/local/bin/ruby /usr/bin/ruby
 
 # TODO: Suggestion from bitsweat:
 # Looking at bootstrap_ruby.sh, I'd encouraging starting with a separate
