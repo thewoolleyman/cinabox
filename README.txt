@@ -16,7 +16,7 @@ Continuous Integration - in a Box
 
 * Support: http://thewoolleyweb.lighthouseapp.com/projects/14441-cinabox
 
-* For more detailed and advanced info on Continuous Integration, see my RailsConf 2008 tutorial:  http://www.thewoolleyweb.com/ci_for_the_rails_guy_or_gal/presentation/ci_for_the_rails_guy_or_gal.pdf
+* For more detailed and advanced info on Continuous Integration and Ubuntu/VMWare setup, see my RailsConf 2008 tutorial:  http://www.thewoolleyweb.com/ci_for_the_rails_guy_or_gal/presentation/ci_for_the_rails_guy_or_gal.pdf
 
 == REQUIREMENTS:
 
