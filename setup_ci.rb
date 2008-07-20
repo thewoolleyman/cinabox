@@ -22,9 +22,10 @@ class Cinabox
     FileUtils.cd(build_dir)
 
     # Install important packaages
-    run "sudo aptitude install -y subversion"
-    run "sudo aptitude install -y git-core git-svn"
-    run "sudo aptitude install -y ssh"
+    run "sudo aptitude install -y subversion" if !((run "dpkg -l subversion") =~ /ii  postfix/) || force
+    run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core") =~ /ii  postfix/) || force
+    run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn") =~ /ii  postfix/) || force
+    run "sudo aptitude install -y ssh" if !((run "dpkg -l ssh") =~ /ii  postfix/) || force
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
