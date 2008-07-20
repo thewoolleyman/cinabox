@@ -51,7 +51,8 @@ Continuous Integration - in a Box
 * Add your projects using ~/ccrb/cruise
 * For help with cinabox, open a ticket:
   http://thewoolleyweb.lighthouseapp.com/projects/14441-cinabox
-* For help with ccrb, try the cruisecontrolrb users mailing list:
+* For help with ccrb, try the cruisecontrolrb homepage and users mailing list:
+  http://cruisecontrolrb.thoughtworks.com/
   http://rubyforge.org/mailman/listinfo/cruisecontrolrb-users
 
 
