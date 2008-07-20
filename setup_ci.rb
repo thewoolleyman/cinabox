@@ -81,7 +81,7 @@ class Cinabox
     # Install and configure postfix
     if !((run "dpkg -l postfix") =~ /ii  postfix/) || force
       run `sudo aptitude install debconf-utils -y`
-      run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname))[0]}' > #{cinabox_dir}/postfix-selections"
+      run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{cinabox_dir}/postfix-selections"
       run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{cinabox_dir}/postfix-selections"
       run "sudo debconf-set-selections #{cinabox_dir}/postfix-selections"
       run "sudo aptitude install postfix -y"
