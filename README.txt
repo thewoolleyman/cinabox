@@ -48,7 +48,7 @@ Continuous Integration - in a Box
 * ruby setup_ci.rb
 * sudo /etc/init.d/ccrb_daemon start
 * Go to http://ubuntu-host:3333
-* Add your projects using ~/ccrb/cruise
+* Configure ccrb and add your projects
 * For help with cinabox, open a ticket:
   http://thewoolleyweb.lighthouseapp.com/projects/14441-cinabox
 * For help with ccrb, try the cruisecontrolrb homepage and users mailing list:
