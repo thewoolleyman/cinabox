@@ -4,28 +4,28 @@ class Cinabox
   def self.setup
     require 'fileutils'
     require 'socket'
-    
-    # warning - the '--force' option will blow away any existing settings
-    force = ARGV[0] == '--force' ? true : false
 
-    # SETTINGS
-    build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
-    FileUtils.mkdir_p(build_dir)
-
+    # Settings
     current_user = "#{ENV['USER']}"
     ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://rubyforge.org/cruisecontrolrb.git"
-    
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
     
+    # Build/download dir
+    build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
+    FileUtils.mkdir_p(build_dir)
+
+    # warning - the '--force' option will blow away any existing settings
+    force = ARGV[0] == '--force' ? true : false
+
     FileUtils.cd(build_dir)
 
     # Install important packaages
-    run "sudo aptitude install -y subversion" if !((run "dpkg -l subversion") =~ /ii  postfix/) || force
-    run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core") =~ /ii  postfix/) || force
-    run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn") =~ /ii  postfix/) || force
-    run "sudo aptitude install -y ssh" if !((run "dpkg -l ssh") =~ /ii  postfix/) || force
+    run "sudo aptitude install -y subversion" if !((run "dpkg -l subversion") =~ /ii  subversion/) || force
+    run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core") =~ /ii  git-core/) || force
+    run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn") =~ /ii  git-svn/) || force
+    run "sudo aptitude install -y ssh" if !((run "dpkg -l ssh") =~ /ii  ssh/) || force
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
