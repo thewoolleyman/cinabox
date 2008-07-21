@@ -1,4 +1,4 @@
-#!/usr/local/bin ruby
+#!/usr/local/bin ruby
 
 class Cinabox
   def self.setup
