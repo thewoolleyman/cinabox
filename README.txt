@@ -42,13 +42,13 @@ INSTRUCTIONS:
     * Here's one: http://symbiosoft.net/UbuntuServerMinimalVA
     * Or search for an "Ubuntu 8.04" Operating System VMs that works for you:
       http://www.vmware.com/appliances/directory/cat/45
-* Log in and change to the home directory by typing 'cd'
+* Log in
 * wget http://github.com/thewoolleyman/cinabox/tarball/master
 * tar -zxvf thewoolleyman-cinabox-<COMMIT_ID>.tar.gz
 * cd thewoolleyman-cinabox-<COMMIT_ID>
 * ./bootstrap_ruby.sh
 * Ensure Ruby got installed by typing 'ruby --version'
-* ruby setup_ci.rb
+* ./setup_ci.rb
 * Review the output.  If there were errors, fix and rerun 'ruby setup_ci.rb'.
   Pass the '--force' param to redo already-completed steps
 * sudo /etc/init.d/ccrb_daemon start
