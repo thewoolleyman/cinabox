@@ -1,4 +1,4 @@
-#!/usr/local/bin ruby
+#!/usr/local/bin ruby
 
 class Cinabox
   def self.setup
@@ -36,7 +36,7 @@ class Cinabox
 
     # rubygems install/reinstall
     # TODO: Should try a gem update --system if RubyGems is already installed
-    unless ((run "gem --version") =~ /#{rubygems_version}/) || force
+    unless ((run "gem --version", false) =~ /#{rubygems_version}/) || force
       run "rm -rf rubygems-#{rubygems_version}"
       run "tar -zxvf rubygems-#{rubygems_version}.tgz"
       FileUtils.cd "rubygems-#{rubygems_version}" do
