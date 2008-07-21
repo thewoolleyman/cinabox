@@ -22,10 +22,10 @@ class Cinabox
     FileUtils.cd(build_dir)
 
     # Install important packaages
-    run "sudo aptitude install -y subversion"  unless ((run "dpkg -l subversion") =~ /ii  subversion/) || force
-    run "sudo aptitude install -y git-core" unless ((run "dpkg -l git-core") =~ /ii  git-core/) || force
-    run "sudo aptitude install -y git-svn" unless ((run "dpkg -l git-svn") =~ /ii  git-svn/) || force
-    run "sudo aptitude install -y ssh" unless ((run "dpkg -l ssh") =~ /ii  ssh/) || force
+    run "sudo aptitude install -y subversion"  unless ((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
+    run "sudo aptitude install -y git-core" unless ((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
+    run "sudo aptitude install -y git-svn" unless ((run "dpkg -l git-svn", false) =~ /ii  git-svn/) || force
+    run "sudo aptitude install -y ssh" unless ((run "dpkg -l ssh", false) =~ /ii  ssh/) || force
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
@@ -80,7 +80,7 @@ class Cinabox
     end
     
     # Install and configure postfix
-    unless ((run "dpkg -l postfix") =~ /ii  postfix/) || force
+    unless ((run "dpkg -l postfix", false) =~ /ii  postfix/) || force
       run "sudo aptitude install debconf-utils -y"
       run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{cinabox_dir}/postfix-selections"
       run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{cinabox_dir}/postfix-selections"
@@ -89,11 +89,11 @@ class Cinabox
     end
   end
   
-  def self.run(cmd)
+  def self.run(cmd, fail_on_error = true)
     puts "Running command: #{cmd}"
     output = `#{cmd}`
     puts output
-    raise "Command failed: #{cmd}" unless $?.success?
+    raise "Command failed: #{cmd}" unless $?.success? if fail_on_error
     output
   end
 end
