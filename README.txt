@@ -19,14 +19,14 @@ DESCRIPTION:
   easily readable and easily changed.
 * Support: http://thewoolleyweb.lighthouseapp.com/projects/14441-cinabox
 * For more detailed and advanced info on Continuous Integration and
-  Ubuntu/VMWare setup, see my RailsConf 2008 tutorial:
+  Ubuntu/VMWare setup, see my RailsConf tutorial:
   http://www.thewoolleyweb.com/ci_for_the_rails_guy_or_gal/presentation/ci_for_the_rails_guy_or_gal.pdf
 
 REQUIREMENTS:
 
 * Ubuntu 8.04 and an internet connection
 * The ability to be patient, read instructions, pay attention to details, and
-  use Google/Mailing Lists to find additional info and solve unexpected 
+  use the Internet to find additional info and solve unexpected 
   problems.  There will be many.  They will never stop.  That is the nature of
   Continuous Integration.  Take a deep breath.
 
@@ -49,8 +49,8 @@ INSTRUCTIONS:
 * ./bootstrap_ruby.sh
 * Ensure Ruby got installed by typing 'ruby --version'
 * ruby setup_ci.rb
-* Review the output.  If there were errors, rerun 'ruby setup_ci.rb'.  Pass the
-  '--force' param to redo already-completed steps
+* Review the output.  If there were errors, fix and rerun 'ruby setup_ci.rb'.
+  Pass the '--force' param to redo already-completed steps
 * sudo /etc/init.d/ccrb_daemon start
 * Go to http://ubuntu-host:3333
 * Configure ccrb and add your projects
