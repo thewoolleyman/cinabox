@@ -29,7 +29,7 @@ class Cinabox
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
-    unlessFile.exist?("rubygems-#{rubygems_version}.tgz") || force
+    unless File.exist?("rubygems-#{rubygems_version}.tgz") || force
       run "rm -rf rubygems-#{rubygems_version}.tgz"
       run "wget http://rubyforge.org/frs/download.php/#{rubygems_mirror_id}/rubygems-#{rubygems_version}.tgz"
     end
