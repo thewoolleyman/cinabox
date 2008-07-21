@@ -22,21 +22,21 @@ class Cinabox
     FileUtils.cd(build_dir)
 
     # Install important packaages
-    run "sudo aptitude install -y subversion" if !((run "dpkg -l subversion") =~ /ii  subversion/) || force
-    run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core") =~ /ii  git-core/) || force
-    run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn") =~ /ii  git-svn/) || force
-    run "sudo aptitude install -y ssh" if !((run "dpkg -l ssh") =~ /ii  ssh/) || force
+    run "sudo aptitude install -y subversion"  unless ((run "dpkg -l subversion") =~ /ii  subversion/) || force
+    run "sudo aptitude install -y git-core" unless ((run "dpkg -l git-core") =~ /ii  git-core/) || force
+    run "sudo aptitude install -y git-svn" unless ((run "dpkg -l git-svn") =~ /ii  git-svn/) || force
+    run "sudo aptitude install -y ssh" unless ((run "dpkg -l ssh") =~ /ii  ssh/) || force
 
     # Download RubyGems if needed
     rubygems_mirror_id = '38646'
-    if !File.exist?("rubygems-#{rubygems_version}.tgz") || force
+    unlessFile.exist?("rubygems-#{rubygems_version}.tgz") || force
       run "rm -rf rubygems-#{rubygems_version}.tgz"
       run "wget http://rubyforge.org/frs/download.php/#{rubygems_mirror_id}/rubygems-#{rubygems_version}.tgz"
     end
 
     # rubygems install/reinstall
     # TODO: Should try a gem update --system if RubyGems is already installed
-    if !((run "gem --version") =~ /#{rubygems_version}/) || force
+    unless ((run "gem --version") =~ /#{rubygems_version}/) || force
       run "rm -rf rubygems-#{rubygems_version}"
       run "tar -zxvf rubygems-#{rubygems_version}.tgz"
       FileUtils.cd "rubygems-#{rubygems_version}" do
@@ -45,7 +45,7 @@ class Cinabox
     end
 
     # Install ccrb via git and dependencies
-    if !File.exist?(ccrb_home) || force
+    unless File.exist?(ccrb_home) || force
       run "rm -rf #{ccrb_home}"
       run "git clone #{ccrb_branch} #{ccrb_home}"
       run "sudo gem install rake mongrel_cluster"
@@ -58,29 +58,29 @@ class Cinabox
     run "cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/"
     
     # Make dir for ccrb daemon config
-    if !File.exist?('/etc/ccrb') || force
+    unless File.exist?('/etc/ccrb') || force
       run "sudo mkdir -p /etc/ccrb"
       run "sudo chown #{current_user} /etc/ccrb"
     end
 
     # Create ccrb daemon config file
-    if !File.exist?('/etc/ccrb/ccrb_daemon_config') || force
+    unless File.exist?('/etc/ccrb/ccrb_daemon_config') || force
       run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/ccrb_daemon_config'"
       run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/ccrb_daemon_config'"
     end
     
     # Create init script symlink to daemon
-    if !File.exist?('/etc/init.d/ccrb_daemon') || force
+    unless File.exist?('/etc/init.d/ccrb_daemon') || force
       run "sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon"
     end
     
     # Enable on system reboot
-    if !File.exist?('/etc/rc3.d/S20cruise') || force
+    unless File.exist?('/etc/rc3.d/S20cruise') || force
       run "sudo update-rc.d ccrb_daemon defaults"
     end
     
     # Install and configure postfix
-    if !((run "dpkg -l postfix") =~ /ii  postfix/) || force
+    unless ((run "dpkg -l postfix") =~ /ii  postfix/) || force
       run "sudo aptitude install debconf-utils -y"
       run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{cinabox_dir}/postfix-selections"
       run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{cinabox_dir}/postfix-selections"
