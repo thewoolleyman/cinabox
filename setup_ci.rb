@@ -87,13 +87,18 @@ class Cinabox
       run "sudo debconf-set-selections #{cinabox_dir}/postfix-selections"
       run "sudo aptitude install postfix -y"
     end
+
+    print "\n\nSetup script completed."
   end
   
   def self.run(cmd, fail_on_error = true)
     puts "Running command: #{cmd}"
     output = `#{cmd}`
     puts output
-    raise "Command failed: #{cmd}" unless $?.success? if fail_on_error
+    if !$?.success? and fail_on_error
+      print "\n\nCommand failed: #{cmd}"
+      exit $?.to_i
+    end
     output
   end
 end
