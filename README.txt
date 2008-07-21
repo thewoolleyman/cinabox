@@ -1,20 +1,20 @@
-cinabox
-    by Chad Woolley (http://thewoolleyweb.com)
-    http://github.com/thewoolleyman/cinabox/tree/master/README.txt
+cinabox: Continuous Integration - in a Box
 
-== DESCRIPTION:
+Chad Woolley - http://thewoolleyweb.com
+http://github.com/thewoolleyman/cinabox/tree/master/README.txt
+
+SUMMARY:
   
-Continuous Integration - in a Box
+* CI in a Box automates the setup of a Continuous Integration (CI) system by
+  doing The Simplest Thing That Could Possibly Work.
+* It consists of two simple scripts to set up a cruisecontrolrb (ccrb) CI server
+  from scratch on an Ubuntu 8.04 system: one script to bootstrap Ruby, and
+  another script to setup CI.
 
-== FEATURES/PROBLEMS:
-  
-* CI in a Box automates the setup of a Continuous Integration system by doing
-  The Simplest Thing That Could Possibly Work.
+DESCRIPTION:
 
-== SYNOPSIS:
-
-* Simplicity Rules. CINABOX is only tested on Ubuntu 8.04. If it works on
-  anything else, it is by coincidence. If it doesn't work, hack it up yourself
+* Simplicity Rules. CINABOX is only tested on Ubuntu 8.04.  It may work on 
+  other Debian-based systems. If it doesn't work, hack it up yourself
   or try running the commands manually - the scripts are intended to be
   easily readable and easily changed.
 * Support: http://thewoolleyweb.lighthouseapp.com/projects/14441-cinabox
@@ -22,7 +22,7 @@ Continuous Integration - in a Box
   Ubuntu/VMWare setup, see my RailsConf 2008 tutorial:
   http://www.thewoolleyweb.com/ci_for_the_rails_guy_or_gal/presentation/ci_for_the_rails_guy_or_gal.pdf
 
-== REQUIREMENTS:
+REQUIREMENTS:
 
 * Ubuntu 8.04 and an internet connection
 * The ability to be patient, read instructions, pay attention to details, and
@@ -30,9 +30,11 @@ Continuous Integration - in a Box
   problems.  There will be many.  They will never stop.  That is the nature of
   Continuous Integration.  Take a deep breath.
 
-== INSTALL:
+INSTRUCTIONS:
 
-* Install Ubuntu 8.04 manually or as a virtual machine:
+* DISCLAIMER: Cinabox is intended to be run on a clean/dedicated system.  If you
+  run it on an existing system, it may blow away some existing configuration. 
+* Install Ubuntu 8.04, manually or as a virtual machine:
   * http://www.ubuntu.com/getubuntu/download
   * VMWare Player (win): http://www.vmware.com/products/player/
   * VMWare Fusion (mac): http://www.vmware.com/download/fusion/
@@ -40,12 +42,15 @@ Continuous Integration - in a Box
     * Here's one: http://symbiosoft.net/UbuntuServerMinimalVA
     * Or search for an "Ubuntu 8.04" Operating System VMs that works for you:
       http://www.vmware.com/appliances/directory/cat/45
-* cd
+* Log in and change to the home directory by typing 'cd'
 * wget http://github.com/thewoolleyman/cinabox/tarball/master
 * tar -zxvf thewoolleyman-cinabox-<COMMIT_ID>.tar.gz
 * cd thewoolleyman-cinabox-<COMMIT_ID>
 * ./bootstrap_ruby.sh
+* Ensure Ruby got installed by typing 'ruby --version'
 * ruby setup_ci.rb
+* Review the output.  If there were errors, rerun 'ruby setup_ci.rb'.  Pass the
+  '--force' param to redo already-completed steps
 * sudo /etc/init.d/ccrb_daemon start
 * Go to http://ubuntu-host:3333
 * Configure ccrb and add your projects
@@ -55,8 +60,7 @@ Continuous Integration - in a Box
   http://cruisecontrolrb.thoughtworks.com/
   http://rubyforge.org/mailman/listinfo/cruisecontrolrb-users
 
-
-== LICENSE:
+LICENSE:
 
 (The MIT License)
 
