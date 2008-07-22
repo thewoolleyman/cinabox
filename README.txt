@@ -13,7 +13,7 @@ SUMMARY:
 
 DESCRIPTION:
 
-* Simplicity Rules. CINABOX is only tested on Ubuntu 8.04.  It may work on 
+* Simplicity Rules. Cinabox is only tested on Ubuntu 8.04.  It may work on 
   other Debian-based systems. If it doesn't work, hack it up yourself
   or try running the commands manually - the scripts are intended to be
   easily readable and easily changed.
