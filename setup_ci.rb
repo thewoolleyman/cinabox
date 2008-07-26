@@ -55,7 +55,7 @@ class Cinabox
     run "cd #{ccrb_home} && git pull"
     
     # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
-    run "cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/"
+    run "cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/cruise"
     
     # Make dir for ccrb daemon config
     if !File.exist?('/etc/ccrb') || force
@@ -65,18 +65,18 @@ class Cinabox
 
     # Create ccrb daemon config file
     if !File.exist?('/etc/ccrb/ccrb_daemon_config') || force
-      run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/ccrb_daemon_config'"
-      run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/ccrb_daemon_config'"
+      run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/cruise_daemon_config'"
+      run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/cruise_daemon_config'"
     end
     
     # Create init script symlink to daemon
-    if !File.exist?('/etc/init.d/ccrb_daemon') || force
-      run "sudo ln -f #{ccrb_home}/daemon/ccrb_daemon /etc/init.d/ccrb_daemon"
+    if !File.exist?('/etc/init.d/cruise') || force
+      run "sudo ln -f #{ccrb_home}/daemon/cruise /etc/init.d/cruise"
     end
     
     # Enable on system reboot
     if !File.exist?('/etc/rc3.d/S20cruise') || force
-      run "sudo update-rc.d ccrb_daemon defaults"
+      run "sudo update-rc.d cruise defaults"
     end
     
     # Install and configure postfix

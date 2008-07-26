@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-# in order to make cruise run as daemon, you need:
-# 1. cp $CCRB_HOME/daemon/cruise.sample $CCRB_HOME/daemon/cruise
-# 2. specify your cruise_path to $CCRB_HOME in $CCRB_HOME/daemon/cruise file
-# 3. ln -s $CCRB_HOME/daemon/cruise /etc/init.d/cruise (you may need to 'sudo' this)
-# 4. update-rc.d cruise (you may want to choose options by yourself, and you may need to 'sudo' this)
-# 5. it's done :>
+# in order to make cruise run as daemon (and work correctly on reboot), you need:
+# 1. sudo mkdir /etc/ccrb
+# 2. sudo cp $CCRB_HOME/daemon/cruise_daemon_config.sample /etc/ccrb/cruise_daemon_config
+# 3. sudo vi /etc/ccrb/cruise_daemon_config (edit to include your correct $CCRB_USER and $CCRB_HOME)
+# 4. sudo ln -s $CCRB_HOME/daemon/cruise /etc/init.d/cruise
+# 5. sudo update-rc.d cruise defaults
 
 require "fileutils"
 include FileUtils
@@ -19,27 +19,49 @@ rescue => e
   exit 1
 end
 
-daemon_config_file = '/etc/ccrb/ccrb_daemon_config'
+# NOTE: You can set any additional required environment variables in /etc/ccrb/cruise_daemon_config,
+# for example, JAVA_HOME or PATH
+daemon_config_file = '/etc/ccrb/cruise_daemon_config'
 load daemon_config_file if File.exist? daemon_config_file
 
 def cruise_user
   return ENV['CCRB_USER'] if ENV['CCRB_USER'] && ENV['CCRB_USER'] != ''
-  raise("Please set ENV['CCRB_USER'].  See CCRB_HOME/daemon/ccrb_daemon_config.sample.")
+  raise("Please set ENV['CCRB_USER'].  See CCRB_HOME/daemon/cruise_daemon_config.sample.")
 end
 
 def cruise_home
   return ENV['CCRB_HOME'] if ENV['CCRB_HOME'] && ENV['CCRB_HOME'] != ''
-  raise("Please set ENV['CCRB_HOME'].  See CCRB_HOME/daemon/ccrb_daemon_config.sample.")
+  raise("Please set ENV['CCRB_HOME'].  See CCRB_HOME/daemon/cruise_daemon_config.sample.")
+end
+
+def cruise_start_cmd
+  # Override in /etc/ccrb/cruise_daemon_config to set up a custom environment, for example:
+  # ENV['CCRB_START_CMD'] = "source ~/env_script && cd #{ENV['CCRB_HOME']} && ./cruise start -d"
+  ENV['CCRB_START_CMD'] || "cd #{cruise_home} && ./cruise start -d"
+end
+
+def log_error(output)
+  system("su - #{cruise_user} -c 'touch #{cruise_home}/log/cruise_daemon_err.log'")
+  File.open("#{cruise_home}/log/cruise_daemon_err.log", "a+"){|f| f << output + "\n\n"}
 end
 
 command = ARGV.shift
 
 case command
 when 'start'
-  start_cmd = "cd #{cruise_home} && ./cruise start -d"
+  system("su - #{cruise_user} -c 'touch #{cruise_home}/log/cruise_daemon_env.log'")
+  File.open("#{cruise_home}/log/cruise_daemon_env.log", "a+"){|f| f << ENV.inspect + "\n\n"}
+  start_cmd = cruise_start_cmd
   start_cmd = "su - #{cruise_user} -c '#{start_cmd}'" if cruise_user != ENV['USER']
-  output = `#{start_cmd}`
-  exit $?.success? ? 0 : 1
+  output = `#{start_cmd} 2>&1`
+  if $?.success?
+    print output + "\n"
+    exit 0
+  else
+    log_error(output)
+    print output + "\n"
+    exit 1
+  end
 when 'stop'
   failed = false
   failed ||= !(system "mongrel_rails stop -P #{cruise_home}/tmp/pids/mongrel.pid")
@@ -48,7 +70,12 @@ when 'stop'
     failed ||= !(system "kill -9 #{pid}")
     rm pid_file
   end
-  exit failed ? 1 : 0 
+  if failed
+    log_error("'stop' command failed")
+    exit 1
+  else
+    exit 0
+  end 
 else
   p "Usage: /etc/init.d/cruise start|stop"
   exit 1
