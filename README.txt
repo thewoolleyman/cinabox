@@ -25,10 +25,6 @@ DESCRIPTION:
 REQUIREMENTS:
 
 * Ubuntu 8.04 and an internet connection
-* The ability to be patient, read instructions, pay attention to details, and
-  use the Internet to find additional info and solve unexpected 
-  problems.  There will be many.  They will never stop.  That is the nature of
-  Continuous Integration.  Take a deep breath.
 
 INSTRUCTIONS:
 
@@ -42,6 +38,7 @@ INSTRUCTIONS:
     * Here's one: http://symbiosoft.net/UbuntuServerMinimalVA
     * Or search for an "Ubuntu 8.04" Operating System VMs that works for you:
       http://www.vmware.com/appliances/directory/cat/45
+    * 7-Zip archiver: http://www.7-zip.org/ ('7za x <file>' to extract) 
 * Log in
 * wget http://github.com/thewoolleyman/cinabox/tarball/master
 * tar -zxvf thewoolleyman-cinabox-<COMMIT_ID>.tar.gz
