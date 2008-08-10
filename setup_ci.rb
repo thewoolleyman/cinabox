@@ -11,6 +11,7 @@ class Cinabox
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://rubyforge.org/cruisecontrolrb.git"
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
+    ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{cinabox_dir}/ccrb_daemon"
     
     # Build/download dir
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
@@ -54,24 +55,20 @@ class Cinabox
     # Always update ccrb
     run "cd #{ccrb_home} && git pull"
     
-    # TODO: Get ccrb_daemon pushed into ccrb trunk, then remove this
-    run "cp #{cinabox_dir}/ccrb_daemon #{ccrb_home}/daemon/cruise"
     
-    # Make dir for ccrb daemon config
-    if !File.exist?('/etc/ccrb') || force
-      run "sudo mkdir -p /etc/ccrb"
-      run "sudo chown #{current_user} /etc/ccrb"
-    end
-
-    # Create ccrb daemon config file
-    if !File.exist?('/etc/ccrb/ccrb_daemon_config') || force
-      run "echo \"ENV['CCRB_USER']='#{current_user}'\" > '/etc/ccrb/cruise_daemon_config'"
-      run "echo \"ENV['CCRB_HOME']='#{ccrb_home}'\" >> '/etc/ccrb/cruise_daemon_config'"
-    end
-    
-    # Create init script symlink to daemon
+    # Write out init script daemon based on sample in ccrb
     if !File.exist?('/etc/init.d/cruise') || force
-      run "sudo ln -f #{ccrb_home}/daemon/cruise /etc/init.d/cruise"
+      run "sudo touch /etc/init.d/cruise"
+      run "sudo chown #{current_user} /etc/init.d/cruise"
+      File.open("#{ccrb_home}/cruise.sample", "r") do |input|
+        File.open("/etc/init.d/cruise", "w") do |output|
+          input.each_line do |line|
+            line = "CRUISE_USER = '#{current_user}'\n" if line =~ "CRUISE_USER ="
+            line = "CRUISE_HOME = '#{ccrb_home}'\n" if line =~ "CRUISE_HOME ="
+            output.print(line)
+          end
+        end
+      end
     end
     
     # Enable on system reboot
