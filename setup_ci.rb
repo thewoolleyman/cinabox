@@ -59,6 +59,7 @@ class Cinabox
     if !File.exist?('/etc/init.d/cruise') || force
       run "sudo touch /etc/init.d/cruise"
       run "sudo chown #{current_user} /etc/init.d/cruise"
+      run "chmod a+x /etc/init.d/cruise"
       File.open(ccrb_daemon_template, "r") do |input|
         File.open("/etc/init.d/cruise", "w") do |output|
           input.each_line do |line|
