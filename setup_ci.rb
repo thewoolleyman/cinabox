@@ -36,7 +36,6 @@ class Cinabox
     end
 
     # rubygems install/reinstall
-    # TODO: Should try a gem update --system if RubyGems is already installed
     if !((run "gem --version", false) =~ /#{rubygems_version}/) || force
       run "rm -rf rubygems-#{rubygems_version}"
       run "tar -zxvf rubygems-#{rubygems_version}.tgz"
@@ -63,8 +62,8 @@ class Cinabox
       File.open(ccrb_daemon_template, "r") do |input|
         File.open("/etc/init.d/cruise", "w") do |output|
           input.each_line do |line|
-            line = "CRUISE_USER = '#{current_user}'\n" if line =~ "CRUISE_USER ="
-            line = "CRUISE_HOME = '#{ccrb_home}'\n" if line =~ "CRUISE_HOME ="
+            line = "CRUISE_USER = '#{current_user}'\n" if line =~ /CRUISE_USER =/
+            line = "CRUISE_HOME = '#{ccrb_home}'\n" if line =~ /CRUISE_HOME =/
             output.print(line)
           end
         end
