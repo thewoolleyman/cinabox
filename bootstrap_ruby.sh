@@ -5,7 +5,7 @@ sudo aptitude install -y build-essential
 sudo aptitude install -y zlib1g zlib1g-dev
 sudo aptitude install -y libssl-dev openssl
 
-export RUBY_VERSION=1.8.6-p230
+export RUBY_VERSION=1.8.6-p286
 export BUILD_DIR=~/build
 mkdir $BUILD_DIR
 cd $BUILD_DIR
