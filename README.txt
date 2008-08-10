@@ -48,7 +48,7 @@ INSTRUCTIONS:
 * ./setup_ci.rb
 * Review the output.  If there were errors, fix and rerun 'ruby setup_ci.rb'.
   Pass the '--force' param to redo already-completed steps
-* sudo /etc/init.d/ccrb_daemon start
+* sudo /etc/init.d/cruise start
 * Go to http://ubuntu-host:3333
 * Configure ccrb and add your projects
 * For help with cinabox, open a ticket:
