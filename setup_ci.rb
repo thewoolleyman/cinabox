@@ -11,7 +11,7 @@ class Cinabox
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
-    ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{cinabox_dir}/ccrb_daemon"
+    ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{ccrb_home}/cruise.sample"
     
     # Build/download dir
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
@@ -56,11 +56,11 @@ class Cinabox
     run "cd #{ccrb_home} && git pull"
     
     
-    # Write out init script daemon based on sample in ccrb
+    # Write out init script daemon based on template
     if !File.exist?('/etc/init.d/cruise') || force
       run "sudo touch /etc/init.d/cruise"
       run "sudo chown #{current_user} /etc/init.d/cruise"
-      File.open("#{ccrb_home}/cruise.sample", "r") do |input|
+      File.open(ccrb_daemon_template, "r") do |input|
         File.open("/etc/init.d/cruise", "w") do |output|
           input.each_line do |line|
             line = "CRUISE_USER = '#{current_user}'\n" if line =~ "CRUISE_USER ="
