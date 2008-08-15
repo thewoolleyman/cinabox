@@ -9,9 +9,7 @@ class Cinabox
     current_user = "#{ENV['USER']}"
     ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
     rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
-    # Use my branch until the pull request for daemon patch is accepted
-    # ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
-    ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thewoolleyman/cruisecontrol.rb.git"
+    ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
     ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{ccrb_home}/daemon/cruise.sample"
     
