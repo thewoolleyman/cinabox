@@ -1,6 +1,6 @@
 cinabox: Continuous Integration - in a Box
 
-Chad Woolley - http://thewoolleyweb.com
+Chad Woolley - http://thewoolleyweb.com - http://pivotallabs.com
 http://github.com/thewoolleyman/cinabox/tree/master/README.txt
 
 SUMMARY:
@@ -46,7 +46,7 @@ INSTRUCTIONS:
 * ./bootstrap_ruby.sh
 * Ensure Ruby got installed by typing 'ruby --version'
 * ./setup_ci.rb
-* Review the output.  If there were errors, fix and rerun 'ruby setup_ci.rb'.
+* Review the output.  If there were errors, fix and rerun './setup_ci.rb'.
   Pass the '--force' param to redo already-completed steps
 * sudo /etc/init.d/cruise start
 * Go to http://ubuntu-host:3333
