@@ -5,14 +5,14 @@ sudo aptitude install -y build-essential
 sudo aptitude install -y zlib1g zlib1g-dev
 sudo aptitude install -y libssl-dev openssl
 
-export RUBY_VERSION=1.8.6-p286
+export RUBY_VERSION=1.8.6-p287
 export BUILD_DIR=~/build
 mkdir $BUILD_DIR
 cd $BUILD_DIR
 
 rm -rf $BUILD_DIR/ruby-$RUBY_VERSION.tar.gz
 
-wget ftp://ftp.ruby-lang.org/pub/ruby/ruby-$RUBY_VERSION.tar.gz
+wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-$RUBY_VERSION.tar.gz
 tar -zxvf ruby-$RUBY_VERSION.tar.gz
 
 # remove and uncomment all “non-Win” lines (all except
