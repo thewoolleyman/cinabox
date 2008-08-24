@@ -1,4 +1,4 @@
-cinabox: Continuous Integration - in a Box
+Cinabox: Continuous Integration - in a Box
 
 Chad Woolley - http://thewoolleyweb.com - http://pivotallabs.com
 http://github.com/thewoolleyman/cinabox/tree/master/README.txt
