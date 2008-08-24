@@ -2,6 +2,7 @@ cinabox: Continuous Integration - in a Box
 
 Chad Woolley - http://thewoolleyweb.com - http://pivotallabs.com
 http://github.com/thewoolleyman/cinabox/tree/master/README.txt
+http://s3.amazonaws.com/assets.pivotallabs.com/99/original/cinabox_screencast.mov
 
 SUMMARY:
   
