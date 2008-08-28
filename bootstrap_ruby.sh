@@ -4,6 +4,8 @@ sudo aptitude update
 sudo aptitude install -y build-essential
 sudo aptitude install -y zlib1g zlib1g-dev
 sudo aptitude install -y libssl-dev openssl
+sudo aptitude install -y openssh-server openssh-client
+sudo aptitude install -y wget
 
 export RUBY_VERSION=1.8.6-p287
 export BUILD_DIR=~/build
