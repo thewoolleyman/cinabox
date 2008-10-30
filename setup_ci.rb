@@ -8,7 +8,7 @@ class Cinabox
     # Settings
     current_user = "#{ENV['USER']}"
     ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
-    rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.2.0'
+    rubygems_version = ENV['RUBYGEMS_VERSION'] || '1.3.1'
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
     ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{ccrb_home}/daemon/cruise.sample"
@@ -29,7 +29,7 @@ class Cinabox
     run "sudo aptitude install -y ssh" if !((run "dpkg -l ssh", false) =~ /ii  ssh/) || force
 
     # Download RubyGems if needed
-    rubygems_mirror_id = '38646'
+    rubygems_mirror_id = '45905'
     if !File.exist?("rubygems-#{rubygems_version}.tgz") || force
       run "rm -rf rubygems-#{rubygems_version}.tgz"
       run "wget http://rubyforge.org/frs/download.php/#{rubygems_mirror_id}/rubygems-#{rubygems_version}.tgz"
