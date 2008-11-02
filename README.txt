@@ -1,8 +1,9 @@
 Cinabox: Continuous Integration - in a Box
 
+Watch the Screencast! - http://s3.amazonaws.com/assets.pivotallabs.com/99/original/cinabox_screencast.mov
+
 Chad Woolley - http://thewoolleyweb.com - http://pivotallabs.com
 http://github.com/thewoolleyman/cinabox/tree/master/README.txt
-http://s3.amazonaws.com/assets.pivotallabs.com/99/original/cinabox_screencast.mov
 
 SUMMARY:
   
