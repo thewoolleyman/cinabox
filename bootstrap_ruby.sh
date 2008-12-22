@@ -17,8 +17,7 @@ rm -rf $BUILD_DIR/ruby-$RUBY_VERSION.tar.gz
 wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-$RUBY_VERSION.tar.gz
 tar -zxvf ruby-$RUBY_VERSION.tar.gz
 
-# remove and uncomment all “non-Win” lines (all except
-# Win32API and win32ole)
+# comment all “Win” lines (Win32API and win32ole)
 cp ruby-$RUBY_VERSION/ext/Setup ruby-$RUBY_VERSION/ext/Setup.orig
 cat ruby-$RUBY_VERSION/ext/Setup.orig | grep -iv 'win' | sed -n -e 's/#\(.*\)/\1/p' > /tmp/Setup.new
 cp /tmp/Setup.new ruby-$RUBY_VERSION/ext/Setup
