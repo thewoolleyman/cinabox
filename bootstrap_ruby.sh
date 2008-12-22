@@ -24,7 +24,7 @@ cp /tmp/Setup.new ruby-$RUBY_VERSION/ext/Setup
 
 cd $BUILD_DIR/ruby-$RUBY_VERSION
 
-./configure
+./configure --disable-pthreads
 make
 sudo make install
 
