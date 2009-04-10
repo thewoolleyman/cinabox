@@ -1,4 +1,4 @@
-# This script is designed to run on a standard Ubuntu Linux Desktop install
+# This script is tested on Ubuntu Linux, but it should run on most Debian distros
 
 sudo aptitude update
 sudo aptitude install -y build-essential
@@ -7,33 +7,34 @@ sudo aptitude install -y libssl-dev openssl
 sudo aptitude install -y openssh-server openssh-client
 sudo aptitude install -y wget
 
-export RUBY_VERSION=1.8.6-p287
-export BUILD_DIR=~/build
-mkdir $BUILD_DIR
+DEFAULT_RUBY_VERSION=1.8.6-p287
+if [ -z $RUBY_VERSION ]; then RUBY_VERSION=$DEFAULT_RUBY_VERSION; fi
+RUBY_MINOR_VERSION=${RUBY_VERSION:0:3}
+RUBY_TEENY_VERSION=${RUBY_VERSION:0:5}
+if [ -z $RUBY_PREFIX ]; then RUBY_PREFIX=/usr/local/lib/ruby$RUBY_TEENY_VERSION; fi
+if [ -z $RUBY_PROGRAM_SUFFIX ]; then RUBY_PROGRAM_SUFFIX=$RUBY_TEENY_VERSION; fi
+
+if [ -z $BUILD_DIR ]; then export BUILD_DIR=~/.cinabox; fi
+
+mkdir -p $BUILD_DIR
 cd $BUILD_DIR
 
 rm -rf $BUILD_DIR/ruby-$RUBY_VERSION.tar.gz
-
-wget ftp://ftp.ruby-lang.org/pub/ruby/1.8/ruby-$RUBY_VERSION.tar.gz
+wget ftp://ftp.ruby-lang.org/pub/ruby/$RUBY_MINOR_VERSION/ruby-$RUBY_VERSION.tar.gz
+rm -rf $BUILD_DIR/ruby-$RUBY_VERSION
 tar -zxvf ruby-$RUBY_VERSION.tar.gz
 
-# comment all “Win” lines (Win32API and win32ole)
-cp ruby-$RUBY_VERSION/ext/Setup ruby-$RUBY_VERSION/ext/Setup.orig
+# delete “Win” lines (Win32API and win32ole) and uncomment all other lines
+if [ ! -e ruby-$RUBY_VERSION/ext/Setup.orig ]; then cp ruby-$RUBY_VERSION/ext/Setup ruby-$RUBY_VERSION/ext/Setup.orig; fi
 cat ruby-$RUBY_VERSION/ext/Setup.orig | grep -iv 'win' | sed -n -e 's/#\(.*\)/\1/p' > /tmp/Setup.new
 cp /tmp/Setup.new ruby-$RUBY_VERSION/ext/Setup
 
 cd $BUILD_DIR/ruby-$RUBY_VERSION
 
-./configure --disable-pthreads
+./configure --disable-pthreads --prefix=$RUBY_PREFIX --program-suffix=$RUBY_PROGRAM_SUFFIX
 make
 sudo make install
 
 # TODO: had to manually symlink /usr/bin/ruby to /usr/local/bin/ruby for shebang of /usr/bin/env ruby to work
 # in daemon init script on system reboot.  Probably a better way to do via compile options...
-sudo ln -s /usr/local/bin/ruby /usr/bin/ruby
-
-# TODO: Suggestion from bitsweat:
-# Looking at bootstrap_ruby.sh, I'd encouraging starting with a separate
-# --prefix and --program-suffix so it's straightforward to do CI against
-# multiple releases (1.8.5p231, 1.8.6p230, 1.8.7p22, 1.9.0p2, ... jruby
-# 1.1.2, rbx, ;)
+# sudo ln -s /usr/local/bin/ruby /usr/bin/ruby
