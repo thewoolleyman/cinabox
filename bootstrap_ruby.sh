@@ -1,3 +1,4 @@
+#!/bin/bash
 # This script is tested on Ubuntu Linux, but it should run on most Debian distros
 
 # Install build prerequisites
