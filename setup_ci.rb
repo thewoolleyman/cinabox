@@ -31,7 +31,7 @@ class Cinabox
     if !File.exist?(ccrb_home) || force
       run "rm -rf #{ccrb_home}"
       run "git clone #{ccrb_branch} #{ccrb_home}"
-      run "sudo gem install rake mongrel_cluster"
+      run "sudo gem install --bindir /usr/bin rake mongrel mongrel_cluster"
     end
 
     # Always update ccrb
