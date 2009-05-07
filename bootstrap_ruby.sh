@@ -38,8 +38,8 @@ make
 sudo make install
 
 # Download and install RubyGems
-if [ -z $RUBYGEMS_MIRROR_ID ]; then RUBYGEMS_MIRROR_ID=45905; fi
-if [ -z $RUBYGEMS_VERSION ]; then RUBYGEMS_VERSION=1.3.1; fi
+if [ -z $RUBYGEMS_MIRROR_ID ]; then RUBYGEMS_MIRROR_ID=56227; fi
+if [ -z $RUBYGEMS_VERSION ]; then RUBYGEMS_VERSION=1.3.3; fi
 cd $BUILD_DIR
 rm -rf rubygems-$RUBYGEMS_VERSION.tgz
 wget http://rubyforge.org/frs/download.php/$RUBYGEMS_MIRROR_ID/rubygems-$RUBYGEMS_VERSION.tgz
