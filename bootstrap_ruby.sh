@@ -28,14 +28,18 @@ tar -zxvf ruby-$RUBY_VERSION.tar.gz
 
 # Update extensions Setup by deleting “Win” lines (Win32API and win32ole) and uncommenting all other lines
 if [ ! -e ruby-$RUBY_VERSION/ext/Setup.orig ]; then cp ruby-$RUBY_VERSION/ext/Setup ruby-$RUBY_VERSION/ext/Setup.orig; fi
-cat ruby-$RUBY_VERSION/ext/Setup.orig | grep -iv 'win' | sed -n -e 's/#\(.*\)/\1/p' > /tmp/Setup.new
+cat ruby-$RUBY_VERSION/ext/Setup.orig | grep -iv 'win' | grep -iv 'nodynamic' | sed -n -e 's/#\(.*\)/\1/p' > /tmp/Setup.new
 cp /tmp/Setup.new ruby-$RUBY_VERSION/ext/Setup
 
 # Configure, make, and install
 cd $BUILD_DIR/ruby-$RUBY_VERSION
-./configure --disable-pthreads --prefix=$RUBY_PREFIX --program-suffix=$RUBY_PROGRAM_SUFFIX
+if [ $RUBY_MINOR_VERSION = 1.8 ]; then VERSION_OPTS=--disable-pthreads; else VERSION_OPTS=; fi
+./configure $VERSION_OPTS --prefix=$RUBY_PREFIX --program-suffix=$RUBY_PROGRAM_SUFFIX
 make
+if [ ! $? = 0 ]; then echo "error running 'make'" && exit 1; fi
+rm -rf .ext/rdoc
 sudo make install
+if [ ! $? = 0 ]; then echo "error running 'sudo make install'" && exit 1; fi
 
 # Download and install RubyGems
 if [ -z $RUBYGEMS_MIRROR_ID ]; then RUBYGEMS_MIRROR_ID=56227; fi
@@ -47,6 +51,7 @@ rm -rf rubygems-$RUBYGEMS_VERSION
 tar -zxvf rubygems-$RUBYGEMS_VERSION.tgz
 cd $BUILD_DIR/rubygems-$RUBYGEMS_VERSION
 sudo $RUBY_PREFIX/bin/ruby$RUBY_PROGRAM_SUFFIX setup.rb
+if [ ! $? = 0 ]; then echo "error building rubygems" && exit 1; fi
 
 # Make symlinks for all executables
 sudo ln -sf `cd $RUBY_PREFIX && pwd`/bin/* /usr/local/bin
