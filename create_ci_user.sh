@@ -8,7 +8,7 @@ sudo useradd -s /bin/bash -m -p `mkpasswd -H md5 $CI_PASSWORD` ci
 grep 'ci      ALL=(ALL)' /etc/sudoers
 if [ ! $? = 0 ]; then  
   echo "  Giving ci user sudo privileges"
-  rm /tmp/sudoers.tmp
+  rm -f /tmp/sudoers.tmp
   sudo cp /etc/sudoers /etc/sudoers.bak
   cp /etc/sudoers /tmp/sudoers.tmp
   echo "ci      ALL=(ALL) ALL" >> /tmp/sudoers.tmp
