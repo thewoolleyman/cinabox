@@ -33,6 +33,13 @@ cp /tmp/Setup.new ruby-$RUBY_VERSION/ext/Setup
 
 # Configure, make, and install
 cd $BUILD_DIR/ruby-$RUBY_VERSION
+
+# Apply patch required for Ruby 1.8.7-p72 - see http://redmine.ruby-lang.org/issues/show/863
+if [ $RUBY_VERSION = '1.8.7-p72' ]; then 
+  cat ext/openssl/ossl_digest.c | grep -v 'rb_require("openssl")' > ext/openssl/ossl_digest.c.patched
+  cp ext/openssl/ossl_digest.c.patched ext/openssl/ossl_digest.c
+fi
+
 if [ $RUBY_MINOR_VERSION = 1.8 ]; then VERSION_OPTS=--disable-pthreads; else VERSION_OPTS=; fi
 ./configure $VERSION_OPTS --prefix=$RUBY_PREFIX --program-suffix=$RUBY_PROGRAM_SUFFIX
 make
