@@ -3,9 +3,10 @@ if [ -e /home/ci ]; then echo "ci user already exists.  To delete the ci user an
 
 echo "  Creating ci user..."
 if [ -z $CI_PASSWORD ]; then read -p "    Please type password for ci user and press enter:" -s -a CI_PASSWORD; fi
+echo 
 sudo useradd -s /bin/bash -m -p `mkpasswd -H md5 $CI_PASSWORD` ci
 
-grep 'ci      ALL=(ALL)' /etc/sudoers
+grep -q 'ci      ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 if [ ! $? = 0 ]; then  
   echo "  Giving ci user NO PASSWORD sudo privileges"
   rm -f /tmp/sudoers.tmp
