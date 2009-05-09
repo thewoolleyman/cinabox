@@ -18,6 +18,9 @@ if [ -z $RUBY_PREFIX ]; then RUBY_PREFIX=/usr/local/lib/ruby$RUBY_TEENY_VERSION;
 if [ -z $RUBY_PROGRAM_SUFFIX ]; then RUBY_PROGRAM_SUFFIX=$RUBY_TEENY_VERSION; fi
 if [ -z $BUILD_DIR ]; then export BUILD_DIR=~/.cinabox; fi
 
+# Remove existing Debian ruby installation (commented for now, this could screw up existing systems)
+# sudo aptitude remove -y ruby ruby1.8 libruby1.8
+
 # Download and unpack Ruby distribution
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
