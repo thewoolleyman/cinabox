@@ -67,6 +67,7 @@ if [ ! $? = 0 ]; then echo "error building rubygems" && exit 1; fi
 sudo ln -sf `cd $RUBY_PREFIX && pwd`/bin/* /usr/local/bin
 
 # Set up alternatives entry
+# To pick from multiple rubies interactively, use 'sudo update-alternatives --config ruby'
 sudo update-alternatives --install \
  /usr/local/bin/ruby ruby $RUBY_PREFIX/bin/ruby$RUBY_PROGRAM_SUFFIX 100 \
  --slave /usr/local/bin/erb erb $RUBY_PREFIX/bin/erb$RUBY_PROGRAM_SUFFIX \
