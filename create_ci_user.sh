@@ -1,19 +1,15 @@
 #!/bin/bash
 if [ -e /home/ci ]; then echo "ci user already exists.  To delete the ci user and start from scratch, type 'sudo deluser --remove-home ci'" && exit 1; fi
 
-sudo aptitude install -y mkpasswd
-which mkpasswd
-if [ ! $? = 0 ]; then
-  sudo aptitude install -y makepasswd # Ubuntu names it makepasswd, not mkpasswd
-  sudo ln -s `which makepasswd` /usr/local/bin/mkpasswd
-fi
-
 echo "  Creating ci user..."
-if [ -z $CI_PASSWORD ]; then read -p "    Please type password for ci user and press enter:" -s -a CI_PASSWORD; fi
 echo 
-sudo useradd -s /bin/bash -m -p `mkpasswd -H md5 $CI_PASSWORD` ci
-
+sudo useradd -s /bin/bash -m ci
 if [ ! -e /home/ci ]; then echo "ci user was not created successfully, aborting..." && exit 1; fi
+
+echo "  Please assign a password for the ci user..."
+echo 
+sudo passwd ci
+if [ ! $? = 0 ]; then echo "password assignment for CI user failed, aborting..." && exit 1; fi # Note that Ubuntu 8.10 returns zero even on passwd retype failure...
 
 sudo grep -q 'ci      ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 if [ ! $? = 0 ]; then  
