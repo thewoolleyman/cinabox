@@ -10,7 +10,7 @@ class Cinabox
     ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
-    ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{ccrb_home}/daemon/cruise.sample"
+    ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{ccrb_home}/daemon/cruise"
     
     # Build/download dir
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
