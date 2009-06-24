@@ -7,7 +7,7 @@ if [ -z $CI_PASSWORD ]; then read -p "    Please type password for ci user and p
 echo 
 sudo useradd -s /bin/bash -m -p `mkpasswd -H md5 $CI_PASSWORD` ci
 
-grep -q 'ci      ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
+sudo grep -q 'ci      ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 if [ ! $? = 0 ]; then  
   echo "  Giving ci user NO PASSWORD sudo privileges"
   sudo rm -f /tmp/sudoers.tmp
