@@ -67,6 +67,8 @@ class Cinabox
       run "sudo debconf-set-selections #{cinabox_dir}/postfix-selections"
       run "sudo aptitude install postfix -y"
     end
+    
+    run "/etc/init.d/cruise start"
 
     print "\n\nSetup script completed.\n"
   end
