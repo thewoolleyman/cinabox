@@ -6,6 +6,7 @@ sudo aptitude update
 sudo aptitude install -y build-essential
 sudo aptitude install -y zlib1g zlib1g-dev
 sudo aptitude install -y libssl-dev openssl
+sudo aptitude install -y libreadline5-dev
 sudo aptitude install -y openssh-server openssh-client
 sudo aptitude install -y wget
 
@@ -52,8 +53,8 @@ sudo make install
 if [ ! $? = 0 ]; then echo "error running 'sudo make install'" && exit 1; fi
 
 # Download and install RubyGems
-if [ -z $RUBYGEMS_MIRROR_ID ]; then RUBYGEMS_MIRROR_ID=56227; fi
-if [ -z $RUBYGEMS_VERSION ]; then RUBYGEMS_VERSION=1.3.3; fi
+if [ -z $RUBYGEMS_MIRROR_ID ]; then RUBYGEMS_MIRROR_ID=57643; fi
+if [ -z $RUBYGEMS_VERSION ]; then RUBYGEMS_VERSION=1.3.4; fi
 cd $BUILD_DIR
 rm -rf rubygems-$RUBYGEMS_VERSION.tgz
 wget http://rubyforge.org/frs/download.php/$RUBYGEMS_MIRROR_ID/rubygems-$RUBYGEMS_VERSION.tgz
