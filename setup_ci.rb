@@ -25,7 +25,6 @@ class Cinabox
     run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
     run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
     run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn", false) =~ /ii  git-svn/) || force
-    run "sudo aptitude install -y ssh" if !((run "dpkg -l ssh", false) =~ /ii  ssh/) || force
 
     # Install ccrb via git and dependencies
     if !File.exist?(ccrb_home) || force
@@ -56,7 +55,7 @@ class Cinabox
     
     # Enable on system reboot
     if !File.exist?('/etc/rc3.d/S20cruise') || force
-      run "sudo update-rc.d cruise defaults"
+      run "sudo update-rc.d -f cruise defaults"
     end
     
     # Install and configure postfix
