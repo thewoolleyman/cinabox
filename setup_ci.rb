@@ -9,6 +9,8 @@ class Cinabox
     current_user = "#{ENV['USER']}"
     ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
+    # ccrb_tag = ENV['CCRB_TAG']
+    ccrb_tag = ENV['CCRB_TAG'] || 'v1.4.0' # Hardcode to 1.4.0 release until master branch is fixed
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
     ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{ccrb_home}/daemon/cruise"
     
@@ -19,8 +21,6 @@ class Cinabox
     # warning - the '--force' option will blow away any existing settings
     force = ARGV[0] == '--force' ? true : false
 
-    FileUtils.cd(build_dir)
-
     # Install important packaages
     run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
     run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
@@ -30,12 +30,13 @@ class Cinabox
     if !File.exist?(ccrb_home) || force
       run "rm -rf #{ccrb_home}"
       run "git clone #{ccrb_branch} #{ccrb_home}"
+      run "cd #{ccrb_home} && git checkout -b #{ccrb_tag} refs/tags/#{ccrb_tag}" if ccrb_tag
       run "sudo gem install --bindir /usr/bin rake mongrel mongrel_cluster"
     end
 
     # Always update ccrb
-    run "cd #{ccrb_home} && git pull"
-    
+    # TODO: disabled for now, it will break if we are on a tag
+    # run "cd #{ccrb_home} && git pull"
     
     # Write out init script daemon based on template
     if !File.exist?('/etc/init.d/cruise') || force
@@ -61,9 +62,9 @@ class Cinabox
     # Install and configure postfix
     if !((run "dpkg -l postfix", false) =~ /ii  postfix/) || force
       run "sudo aptitude install debconf-utils -y"
-      run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{cinabox_dir}/postfix-selections"
-      run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{cinabox_dir}/postfix-selections"
-      run "sudo debconf-set-selections #{cinabox_dir}/postfix-selections"
+      run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{build_dir}/postfix-selections"
+      run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{build_dir}/postfix-selections"
+      run "sudo debconf-set-selections #{build_dir}/postfix-selections"
       run "sudo aptitude install postfix -y"
     end
     
