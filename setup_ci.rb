@@ -40,6 +40,7 @@ class Cinabox
     
     # Write out init script daemon based on template
     if !File.exist?('/etc/init.d/cruise') || force
+      run "sudo rm -f /etc/init.d/cruise"
       run "sudo touch /etc/init.d/cruise"
       run "sudo chown #{ccrb_user} /etc/init.d/cruise"
       run "chmod a+x /etc/init.d/cruise"
