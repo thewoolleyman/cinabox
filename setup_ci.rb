@@ -6,7 +6,7 @@ class Cinabox
     require 'socket'
 
     # Settings
-    current_user = "#{ENV['USER']}"
+    ccrb_user = ENV['CCRB_USER'] || ENV['USER']
     ccrb_home = ENV['CCRB_HOME'] || "#{ENV['HOME']}/ccrb"
     ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
     # ccrb_tag = ENV['CCRB_TAG']
@@ -41,12 +41,12 @@ class Cinabox
     # Write out init script daemon based on template
     if !File.exist?('/etc/init.d/cruise') || force
       run "sudo touch /etc/init.d/cruise"
-      run "sudo chown #{current_user} /etc/init.d/cruise"
+      run "sudo chown #{ccrb_user} /etc/init.d/cruise"
       run "chmod a+x /etc/init.d/cruise"
       File.open(ccrb_daemon_template, "r") do |input|
         File.open("/etc/init.d/cruise", "w") do |output|
           input.each_line do |line|
-            line = "CRUISE_USER = '#{current_user}'\n" if line =~ /CRUISE_USER =/
+            line = "CRUISE_USER = '#{ccrb_user}'\n" if line =~ /CRUISE_USER =/
             line = "CRUISE_HOME = '#{ccrb_home}'\n" if line =~ /CRUISE_HOME =/
             output.print(line)
           end
