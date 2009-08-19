@@ -8,11 +8,11 @@ class Cinabox
     # Settings
     cruise_user = ENV['CRUISE_USER'] || ENV['USER']
     cruise_home = ENV['CRUISE_HOME'] || "#{ENV['HOME']}/ccrb"
-    ccrb_branch = ENV['CCRB_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
-    # ccrb_tag = ENV['CCRB_TAG']
-    ccrb_tag = ENV['CCRB_TAG'] || 'v1.4.0' # Hardcode to 1.4.0 release until master branch is fixed
+    cruise_branch = ENV['CRUISE_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
+    # cruise_tag = ENV['CRUISE_TAG']
+    cruise_tag = ENV['CRUISE_TAG'] if ENV['CRUISE_TAG']
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
-    ccrb_daemon_template = ENV['CCRB_DAEMON_TEMPLATE'] || "#{cruise_home}/daemon/cruise"
+    cruise_daemon_template = ENV['CRUISE_DAEMON_TEMPLATE'] || "#{cruise_home}/daemon/cruise"
     
     # Build/download dir
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
@@ -26,15 +26,15 @@ class Cinabox
     run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
     run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn", false) =~ /ii  git-svn/) || force
 
-    # Install ccrb via git and dependencies
+    # Install cruisecontrol.rb via git and dependencies
     if !File.exist?(cruise_home) || force
       run "rm -rf #{cruise_home}"
-      run "git clone #{ccrb_branch} #{cruise_home}"
-      run "cd #{cruise_home} && git checkout -b #{ccrb_tag} refs/tags/#{ccrb_tag}" if ccrb_tag
+      run "git clone #{cruise_branch} #{cruise_home}"
+      run "cd #{cruise_home} && git checkout -b #{cruise_tag} refs/tags/#{cruise_tag}" if cruise_tag
       run "sudo gem install --bindir /usr/bin rake mongrel mongrel_cluster"
     end
 
-    # Always update ccrb
+    # Always update cruisecontrol.rb
     # TODO: disabled for now, it will break if we are on a tag
     # run "cd #{cruise_home} && git pull"
     
@@ -44,7 +44,7 @@ class Cinabox
       run "sudo touch /etc/init.d/cruise"
       run "sudo chown #{cruise_user} /etc/init.d/cruise"
       run "chmod a+x /etc/init.d/cruise"
-      File.open(ccrb_daemon_template, "r") do |input|
+      File.open(cruise_daemon_template, "r") do |input|
         File.open("/etc/init.d/cruise", "w") do |output|
           input.each_line do |line|
             line = "CRUISE_USER = '#{cruise_user}'\n" if line =~ /CRUISE_USER =/
