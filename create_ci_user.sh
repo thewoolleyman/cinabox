@@ -1,5 +1,13 @@
 #!/bin/bash
-if [ -e /home/ci ]; then echo "ci user already exists.  To delete the ci user and start from scratch, type 'sudo deluser --remove-home ci'" && exit 1; fi
+if [ -e /home/ci ]; then 
+  echo "ci user already exists.  Do you want to delete the and recreate the ci user from scratch with 'sudo deluser --remove-home ci'?  Type 'yes' or 'no':"
+  read SHOULD_DELETE_CI_USER
+  if [ "$SHOULD_DELETE_CI_USER" = 'yes' ]; then
+    sudo deluser --remove-home ci
+  else
+    exit 1
+  fi
+fi
 
 echo "  Creating ci user..."
 echo 
