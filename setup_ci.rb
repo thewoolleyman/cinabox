@@ -71,7 +71,7 @@ class Cinabox
     
     # Init script needs to be invoked via sudo from here, otherwise it may not have permission to create a pid file
     # if this script was invoked by a user other than CRUISE_USER.  If the CRUISE_USER user runs it, you don't need sudo
-    run "sudo /etc/init.d/cruise start" 
+    run "sudo su - ci -c '/etc/init.d/cruise start'" 
 
     print "\n\nSetup script completed.\n"
   end
