@@ -69,9 +69,8 @@ class Cinabox
       run "sudo aptitude install postfix -y"
     end
     
-    # Init script needs to be invoked via sudo from here, otherwise it may not have permission to create a pid file
-    # if this script was invoked by a user other than CRUISE_USER.  If the CRUISE_USER user runs it, you don't need sudo
-    run "sudo su - ci -c '/etc/init.d/cruise start'" 
+    # TODO: when run via 'su - ci' from another user, this doesn't always drop a pid file, even though it starts
+    run "/etc/init.d/cruise start" unless ENV['NO_DAEMON_START']
 
     print "\n\nSetup script completed.\n"
   end
