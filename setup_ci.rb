@@ -31,7 +31,10 @@ class Cinabox
       run "rm -rf #{cruise_home}"
       run "git clone #{cruise_branch} #{cruise_home}"
       run "cd #{cruise_home} && git checkout -b #{cruise_tag} refs/tags/#{cruise_tag}" if cruise_tag
-      run "sudo gem install --bindir /usr/bin rake mongrel mongrel_cluster rack thin"
+      run "sudo gem install --bindir /usr/bin rake rack thin"
+      unless RUBY_VERSION =~ /^1.9/
+        run "sudo gem install --bindir /usr/bin mongrel mongrel_cluster"
+      end
     end
 
     # Always update cruisecontrol.rb
