@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# TODO: this doesn't work on distros without deluser, e.g. Gentoo
+
 if [ -e /home/ci ]; then 
   echo "ci user already exists.  Do you want to delete the and recreate the ci user from scratch with 'sudo deluser --remove-home ci'?  Type 'yes' or 'no':"
   read SHOULD_DELETE_CI_USER
