@@ -26,9 +26,9 @@ class Cinabox
 
     # Install important packages
     if distro == 'gentoo'
-      # TODO: don't reinstall on gentoo unless forced
-      run "sudo emerge dev-util/subversion"
-      run "sudo emerge dev-util/git"
+      # TODO: better way to detect already-installed packaged?
+      run "sudo emerge dev-util/subversion" if !system('which subversion') || force
+      run "sudo emerge dev-util/git" if !system('which git') || force
     else
       run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
       run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
@@ -69,6 +69,7 @@ class Cinabox
     
     # Enable on system reboot
     if !File.exist?('/etc/rc3.d/S20cruise') || force
+      # TODO: equivalent for Gentoo
       run "sudo update-rc.d -f cruise defaults"
     end
     
