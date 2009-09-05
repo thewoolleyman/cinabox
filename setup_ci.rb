@@ -14,6 +14,9 @@ class Cinabox
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
     cruise_daemon_template = ENV['CRUISE_DAEMON_TEMPLATE'] || "#{cruise_home}/daemon/cruise"
     
+    # Detect distro, only Gentoo and Debian currently supported
+    distro = system('which emerge') ? 'gentoo' : 'debian'
+    
     # Build/download dir
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
     FileUtils.mkdir_p(build_dir)
@@ -21,10 +24,16 @@ class Cinabox
     # warning - the '--force' option will blow away any existing settings
     force = ARGV[0] == '--force' ? true : false
 
-    # Install important packaages
-    run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
-    run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
-    run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn", false) =~ /ii  git-svn/) || force
+    # Install important packages
+    if distro == 'gentoo'
+      # TODO: don't reinstall on gentoo unless forced
+      run "sudo emerge dev-util/subversion"
+      run "sudo emerge dev-util/git"
+    else
+      run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
+      run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
+      run "sudo aptitude install -y git-svn" if !((run "dpkg -l git-svn", false) =~ /ii  git-svn/) || force
+    end
 
     # Install cruisecontrol.rb via git and dependencies
     if !File.exist?(cruise_home) || force
@@ -64,12 +73,16 @@ class Cinabox
     end
     
     # Install and configure postfix
-    if !((run "dpkg -l postfix", false) =~ /ii  postfix/) || force
-      run "sudo aptitude install debconf-utils -y"
-      run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{build_dir}/postfix-selections"
-      run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{build_dir}/postfix-selections"
-      run "sudo debconf-set-selections #{build_dir}/postfix-selections"
-      run "sudo aptitude install postfix -y"
+    if distro == 'gentoo'
+      puts "Mail daemon setup is not yet automated on Gentoo, please set up CCRB with a working mail delivery option"
+    else
+      if !((run "dpkg -l postfix", false) =~ /ii  postfix/) || force
+        run "sudo aptitude install debconf-utils -y"
+        run "echo 'postfix\tpostfix/mailname\tstring\t#{Socket.gethostbyname(Socket.gethostname)[0]}' > #{build_dir}/postfix-selections"
+        run "echo 'postfix\tpostfix/main_mailer_type\tselect\tInternet Site' >> #{build_dir}/postfix-selections"
+        run "sudo debconf-set-selections #{build_dir}/postfix-selections"
+        run "sudo aptitude install postfix -y"
+      end
     end
     
     # TODO: when run via 'su - ci' from another user, this doesn't always drop a pid file, even though it starts
