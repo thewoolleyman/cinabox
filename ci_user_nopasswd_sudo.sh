@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# TODO: use a regexp to match any whitespace
 sudo grep -q 'ci      ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 if [ ! $? = 0 ]; then  
   echo "  Giving ci user NO PASSWORD sudo privileges"
