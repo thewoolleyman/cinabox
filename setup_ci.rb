@@ -26,9 +26,9 @@ class Cinabox
 
     # Install important packages
     if distro == 'gentoo'
-      # TODO: better way to detect already-installed packaged?
-      run "sudo emerge dev-util/subversion" if !system('which svn') || force
-      run "sudo emerge dev-util/git" if !system('which git') || force
+      # TODO: better way to avoid reinstalling already-installed packaged?  Ignore force flag for now because emerge takes forever
+      run "sudo emerge dev-util/subversion" if !system('which svn') # || force
+      run "sudo emerge dev-util/git" if !system('which git') # || force
     else
       run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
       run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
