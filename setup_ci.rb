@@ -69,8 +69,11 @@ class Cinabox
     
     # Enable on system reboot
     if !File.exist?('/etc/rc3.d/S20cruise') || force
-      # TODO: equivalent for Gentoo
-      run "sudo update-rc.d -f cruise defaults"
+      if distro == 'gentoo'
+        run 'sudo rc-update add cruise default'
+      else
+        run "sudo update-rc.d -f cruise defaults"
+      end
     end
     
     # Install and configure postfix
