@@ -26,9 +26,9 @@ class Cinabox
 
     # Install important packages
     if distro == 'gentoo'
-      # TODO: better way to avoid reinstalling already-installed packaged?  Ignore force flag for now because emerge takes forever
-      run "sudo emerge dev-util/subversion" if !system('which svn') # || force
-      run "sudo emerge dev-util/git" if !system('which git') # || force
+      # Ignore force flag because emerge takes forever
+      run "sudo emerge dev-util/subversion" unless system("qlist -I | grep 'subversion'")
+      run "sudo emerge dev-util/git" unless system("qlist -I | grep 'git'")
     else
       run "sudo aptitude install -y subversion"  if !((run "dpkg -l subversion", false) =~ /ii  subversion/) || force
       run "sudo aptitude install -y git-core" if !((run "dpkg -l git-core", false) =~ /ii  git-core/) || force
@@ -89,7 +89,7 @@ class Cinabox
       end
     end
     
-    # TODO: when run via 'su - ci' from another user, this doesn't always drop a pid file, even though it starts
+    # TODO: when run via 'su -l ci' from another user, this doesn't always drop a pid file, even though it starts
     run "/etc/init.d/cruise start" unless ENV['NO_DAEMON_START']
 
     print "\n\nSetup script completed.\n"
