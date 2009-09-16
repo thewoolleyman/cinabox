@@ -10,9 +10,13 @@ class Cinabox
     cruise_home = ENV['CRUISE_HOME'] || "#{ENV['HOME']}/ccrb"
     cruise_branch = ENV['CRUISE_BRANCH'] || "git://github.com/thoughtworks/cruisecontrol.rb.git"
     # cruise_tag = ENV['CRUISE_TAG']
-    cruise_tag = ENV['CRUISE_TAG'] if ENV['CRUISE_TAG']
+    cruise_tag = ENV['CRUISE_TAG']
     cinabox_dir = File.expand_path(File.dirname(__FILE__))
     cruise_daemon_template = ENV['CRUISE_DAEMON_TEMPLATE'] || "#{cruise_home}/daemon/cruise"
+    hostname = ENV['HOSTNAME']
+    
+    # set hostname
+    run "sudo echo '#{hostname}' > /etc/hostname" if hostname
     
     # Build/download dir
     build_dir = ENV['BUILD_DIR'] || "#{ENV['HOME']}/build"
